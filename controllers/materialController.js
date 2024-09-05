@@ -1,15 +1,15 @@
 const Material = require('../models/Material');
-
-exports.uploadMaterial = async (req, res) => {
-    const { name, link, postedBy } = req.body;
-    try {
-        const material = new Material({ name, link, postedBy });
-        await material.save();
-        res.json({ message: 'Material uploaded successfully', material });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to upload material', error });
-    }
-};
+const upload = require('../models/upload');
+// exports.uploadMaterial = async (req, res) => {
+//     const { name, link, postedBy } = req.body;
+//     try {
+//         const material = new Material({ name, link, postedBy });
+//         await material.save();
+//         res.json({ message: 'Material uploaded successfully', material });
+//     } catch (error) {
+//         res.status(500).json({ message: 'Failed to upload material', error });
+//     }
+// };
 
 // Fetch all materials
 exports.getMaterials = async (req, res) => {
@@ -22,8 +22,7 @@ exports.getMaterials = async (req, res) => {
 };
 
 
-const upload = require('../config/upload');
-const Material = require('../models/Material');
+
 
 exports.uploadMaterial = async (req, res) => {
     upload.single('file')(req, res, async (err) => {
