@@ -11,7 +11,7 @@ exports.signAttendance = async (req, res) => {
     }
 };
 
-// Fetch all attendance records
+
 exports.getAttendanceRecords = async (req, res) => {
     try {
         const records = await Attendance.find();
