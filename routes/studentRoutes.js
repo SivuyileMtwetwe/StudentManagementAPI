@@ -14,4 +14,10 @@ router.delete('/:id', studentController.deleteStudent);
 
 router.delete('/', studentController.deleteAllStudents);
 
+router.post('/attendance', studentController.signAttendance);
+
+router.post('/performance', studentController.addPerformanceRecord);
+router.get('/:id/performance', studentController.getPerformanceRecords);
+
+
 module.exports = router;

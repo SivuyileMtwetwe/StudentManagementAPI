@@ -63,3 +63,65 @@ exports.deleteAllStudents = async (req, res) => {
         res.status(500).json({ message: 'Failed to delete students', error });
     }
 };
+
+
+exports.signAttendance = async (req, res) => {
+    const { studentName } = req.body;
+    try {
+        res.json({ message: 'Attendance signed successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to sign attendance', error });
+    }
+};
+
+
+exports.addPerformanceRecord = async (req, res) => {
+    const { studentId, subject, score } = req.body;
+    try {
+        const student = await Student.findById(studentId);
+        if (student) {
+            student.performance.push({ subject, score });
+            await student.save();
+            res.json({ message: 'Performance record added successfully', student });
+        } else {
+            res.status(404).json({ message: 'Student not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to add performance record', error });
+    }
+};
+
+exports.getPerformanceRecords = async (req, res) => {
+    try {
+        const student = await Student.findById(req.params.id);
+        res.json(student.performance);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch performance records', error });
+    }
+};
+
+
+exports.addPerformanceRecord = async (req, res) => {
+    const { studentId, subject, score } = req.body;
+    try {
+        const student = await Student.findById(studentId);
+        if (student) {
+            student.performance.push({ subject, score });
+            await student.save();
+            res.json({ message: 'Performance record added successfully', student });
+        } else {
+            res.status(404).json({ message: 'Student not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to add performance record', error });
+    }
+};
+
+exports.getPerformanceRecords = async (req, res) => {
+    try {
+        const student = await Student.findById(req.params.id);
+        res.json(student.performance);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch performance records', error });
+    }
+};
