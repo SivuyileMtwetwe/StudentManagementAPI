@@ -1,8 +1,6 @@
 const app = require('./app');
 const cors = require('cors');
-app.use(cors({
-    origin: 'https://schoolmanagement-three.vercel.app'  
-}));
+app.use(cors());
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {

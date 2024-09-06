@@ -8,8 +8,8 @@ connectDB();
 
 app.use(express.json());
 
-// const cors = require('cors');
-// app.use(cors());
+const cors = require('cors');
+app.use(cors());
 
 const attendanceRoutes = require('./routes/attendanceRoutes');
 app.use('/attendance', attendanceRoutes);
