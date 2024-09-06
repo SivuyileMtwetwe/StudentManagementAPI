@@ -170,18 +170,21 @@ exports.markAttendance = async (req, res) => {
 };
 
 
+// studentController.js
 exports.getPerformance = async (req, res) => {
     try {
         const students = await Student.find();
         const performanceData = students.map(student => ({
             name: student.name,
-            scores: student.performance.map(p => ({ subject: p.subject, score: p.score }))
+            class: student.class,
+            performance: student.performance
         }));
         res.json(performanceData);
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch performance data', error });
     }
 };
+
 
 
 const multer = require('multer');
