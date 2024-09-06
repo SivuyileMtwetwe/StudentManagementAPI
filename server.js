@@ -7,6 +7,8 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
-app.get('/',  async(req, res) => {
+app.get('/',  async(_req, res) => {
     res.status(200).send("Welcome to the student management api")
 })
+
+
