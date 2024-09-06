@@ -1,4 +1,4 @@
-const Attendance = require('../models/attendance');
+const Attendance = require('../models/Attendance');
 
 exports.signAttendance = async (req, res) => {
     const { studentName } = req.body;
