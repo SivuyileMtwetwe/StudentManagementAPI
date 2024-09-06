@@ -155,3 +155,75 @@ exports.submitAttendance = async (req, res) => {
         res.status(500).json({ message: 'Failed to save attendance', error });
     }
 };
+
+
+exports.markAttendance = async (req, res) => {
+    try {
+        const attendanceData = req.body; // array of { studentId, present }
+        await Promise.all(attendanceData.map(async ({ studentId, present }) => {
+            await Student.findByIdAndUpdate(studentId, { $set: { present } });
+        }));
+        res.json({ message: 'Attendance marked successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to mark attendance', error });
+    }
+};
+
+
+exports.getPerformance = async (req, res) => {
+    try {
+        const students = await Student.find();
+        const performanceData = students.map(student => ({
+            name: student.name,
+            scores: student.performance.map(p => ({ subject: p.subject, score: p.score }))
+        }));
+        res.json(performanceData);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch performance data', error });
+    }
+};
+
+
+const multer = require('multer');
+const path = require('path');
+
+// Configure multer for file uploads
+const upload = multer({ dest: 'uploads/' });
+
+exports.uploadMaterial = (req, res) => {
+    try {
+        const material = {
+            name: req.file.originalname,
+            link: `/uploads/${req.file.filename}`,
+        };
+        // Save material data (you can store this in DB)
+        res.json({ message: 'Material uploaded successfully', material });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to upload material', error });
+    }
+};
+
+exports.getMaterials = (req, res) => {
+    // Fetch materials (you can return from DB if stored)
+    res.json([
+        { name: 'Math Worksheet', link: '/uploads/math_worksheet.pdf' }
+    ]);
+};
+
+exports.getReportCard = async (req, res) => {
+    try {
+        const student = await Student.findById(req.params.id);
+        if (!student) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        const reportCard = {
+            name: student.name,
+            age: student.age,
+            class: student.class,
+            performance: student.performance
+        };
+        res.json(reportCard);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to generate report card', error });
+    }
+};
