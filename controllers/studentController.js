@@ -1,5 +1,5 @@
 const Student = require('../models/student');
-
+const Attendance = require('../models/Attendance');
 exports.getStudents = async (req, res) => {
     try {
         const students = await Student.find();
@@ -123,5 +123,35 @@ exports.getPerformanceRecords = async (req, res) => {
         res.json(student.performance);
     } catch (error) {
         res.status(500).json({ message: 'Failed to fetch performance records', error });
+    }
+};
+
+
+
+// Fetch students for marking attendance
+exports.getStudentsForAttendance = async (req, res) => {
+    try {
+        const students = await Student.find();  // Fetch students
+        res.json(students);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch students', error });
+    }
+};
+
+// Submit attendance data
+exports.submitAttendance = async (req, res) => {
+    const { attendanceData } = req.body;  // Expecting an array of attendance records
+    try {
+        for (const entry of attendanceData) {
+            const { studentId, present } = entry;
+            const attendance = new Attendance({
+                studentName: studentId,
+                attended: present
+            });
+            await attendance.save();
+        }
+        res.json({ message: 'Attendance saved successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to save attendance', error });
     }
 };
