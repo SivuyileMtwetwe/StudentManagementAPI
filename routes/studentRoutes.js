@@ -4,7 +4,7 @@ const studentController = require('../controllers/studentController');
 const attendanceController = require('../controllers/attendanceController');
 
 
-// router.get('/', studentController.getStudents);
+router.get('/', studentController.getStudents);
 router.get('/:id', studentController.getStudentById);
 router.get('/:id/performance', studentController.getPerformanceRecords);
 router.get('/students', attendanceController.getStudentsForAttendance);
